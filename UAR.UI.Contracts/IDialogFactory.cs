@@ -4,6 +4,6 @@ namespace UAR.UI.Contracts
 {
     public interface IDialogFactory
     {
-        Form Create<T>() where T : Form;
+        T CreateScoped<T>() where T : Form;
     }
 }

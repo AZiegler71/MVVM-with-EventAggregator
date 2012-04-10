@@ -16,7 +16,7 @@ namespace UAR.UI.WinForms
             _container = container;
         }
 
-        public Form Create<T>() where T : Form
+        public T CreateScoped<T>() where T : Form
         {
             var scope = _container.BeginScope();
 
