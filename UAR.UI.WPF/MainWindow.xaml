@@ -1,37 +1,43 @@
 ﻿<Window x:Class="UAR.UI.WPF.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:UAR.UI.WPF" Title="MainWindow"
         Height="350" Width="525" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
   <Window.Resources>
-    <DataTemplate DataType="{x:Type local:EmployeesVM}">
+    <DataTemplate DataType="{x:Type local:MainVM}">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
           <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Path=HecoEmployees}" SelectedItem="{Binding Path=SelectedItem}" Grid.Column="0">
+        <ListView x:Name="listView" ItemsSource="{Binding Path=HecoEmployees}" Grid.Column="0">
+          <ListView.ItemContainerStyle>
+            <Style TargetType="{x:Type ListViewItem}">
+              <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+            </Style>
+          </ListView.ItemContainerStyle>
           <ListView.View>
             <GridView>
               <GridView.Columns>
-                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
+                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
               </GridView.Columns>
             </GridView>
           </ListView.View>
         </ListView>
-        <ContentControl Content="{Binding Path=SelectedItem}" Grid.Column="1" />
+        <ContentControl Content="{Binding ElementName=listView, Path=SelectedItem}" Grid.Column="1" />
       </Grid>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type local:EmployeeDetailVM}">
+    
+    <DataTemplate DataType="{x:Type local:EmployeeDetailsVM}">
       <StackPanel>
         <TextBlock Text="{Binding Path=Name}" Margin="4" />
         <TextBlock Text="{Binding Path=Phone}" Margin="4" />
-        <TextBlock Text="{Binding Path=Country}" Margin="4" />
       </StackPanel>
     </DataTemplate>
   </Window.Resources>
-  <Grid>
-    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-      <Button Click="Button_Click_Northwind">Northwind</Button>
-      <ContentControl DockPanel.Dock="Left" Width="300" Content="{Binding Path=EmployeesViewModel}" Grid.Column="0" />
-    </StackPanel>
-  </Grid>
+  
+  <DockPanel>
+    <Button Click="Button_Click_Northwind" Height="40" DockPanel.Dock="Top">Northwind</Button>
+    <Button Click="Button_Delete" Height="40" DockPanel.Dock="Top">Löschen</Button>
+    <ContentControl Content="{Binding Path=MainViewModel}" />
+  </DockPanel>
 </Window>

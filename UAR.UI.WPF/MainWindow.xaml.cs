@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-
 using UAR.UI.Contracts;
 
 namespace UAR.UI.WPF
@@ -9,22 +8,22 @@ namespace UAR.UI.WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IAmViewModel
+    public partial class MainWindow : IAmViewModel
     {
         readonly IViewModelFactory _viewModelFactory;
 
-        EmployeesVM _employeesViewModel;
-        public EmployeesVM EmployeesViewModel
+        MainVM _mainViewModel;
+        public MainVM MainViewModel
         {
             get
             {
-                return _employeesViewModel;
+                return _mainViewModel;
             }
             set
             {
-                _employeesViewModel = value;
+                _mainViewModel = value;
                 if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("EmployeesViewModel"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("MainViewModel"));
             }
         }
 
@@ -38,17 +37,13 @@ namespace UAR.UI.WPF
 
         private void Button_Click_Northwind(object sender, RoutedEventArgs e)
         {
-            if (EmployeesViewModel == null)
-                EmployeesViewModel = _viewModelFactory.CreateScoped<EmployeesVM>();
+            if (MainViewModel == null)
+                MainViewModel = _viewModelFactory.CreateScoped<MainVM>();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Delete(object sender, RoutedEventArgs e)
         {
-            if (EmployeesViewModel == null)
-                return;
-
-            EmployeesViewModel.Dispose();
-            EmployeesViewModel = null;
+            MainViewModel.DeleteSelected();
         }
 
     }
