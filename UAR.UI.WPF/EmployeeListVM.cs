@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using UAR.Domain.Northwind;
@@ -10,26 +11,6 @@ namespace UAR.UI.WPF
     {
         private readonly IViewModelFactory _viewModelFactory;
         public ObservableCollection<EmployeeDetailsVM> Employees { get; set; }
-
-        #region FirstSelected property
-
-        private const string FirstSelectedProperty = "FirstSelected";
-        private EmployeeDetailsVM _firstSelected;
-        public EmployeeDetailsVM FirstSelected
-        {
-            get { return _firstSelected; }
-            set
-            {
-                if (_firstSelected != value)
-                {
-                    _firstSelected = value;
-                    if (PropertyChanged != null)
-                        PropertyChanged(this, new PropertyChangedEventArgs(FirstSelectedProperty));
-                }
-            }
-        }
-
-        #endregion
 
         public EmployeeListVM(IViewModelFactory viewModelFactory)
         {
@@ -80,6 +61,32 @@ namespace UAR.UI.WPF
             }
         }
 
+        public event Action<EmployeeDetailsVM> SelectedEmployeeChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #region FirstSelected property
+
+        private const string FirstSelectedProperty = "FirstSelected";
+        private EmployeeDetailsVM _firstSelected;
+        public EmployeeDetailsVM FirstSelected
+        {
+            get { return _firstSelected; }
+            set
+            {
+                if (_firstSelected != value)
+                {
+                    _firstSelected = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs(FirstSelectedProperty));
+
+                    // communicate this view related event by event layer also?
+                    if (SelectedEmployeeChanged != null)
+                        SelectedEmployeeChanged(_firstSelected);
+                }
+            }
+        }
+
+        #endregion
     }
 }

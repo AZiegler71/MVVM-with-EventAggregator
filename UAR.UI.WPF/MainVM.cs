@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Linq;
 using UAR.UI.Contracts;
-using System.Windows.Input;
 
 namespace UAR.UI.WPF
 {
@@ -63,11 +62,17 @@ namespace UAR.UI.WPF
                 {
                     EmployeeList = viewModelFactory.Create<EmployeeListVM>();
                     EmployeeList.Load();
+                    EmployeeList.SelectedEmployeeChanged += SelectedEmployeeChanged; // unsubscribe in real solution...
                 });
 
             DeleteItemsCommand = new DelegateCommandModel(
                 x => EmployeeList != null,
                 x => EmployeeList.DeleteSelected());
+        }
+
+        private void SelectedEmployeeChanged(EmployeeDetailsVM details)
+        {
+            SelectedEmployee = details;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
