@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-
 using UAR.Persistence.Contracts;
 
 namespace UAR.Persistence.ORM
 {
     internal class EfUnitOfWork : IUnitOfWork
     {
+        private readonly IContextFactory _contextFactory;
         private IDbContext _wrappedContext; //entspricht der UnitOfWork vom EntityFramework
-        readonly IContextFactory _contextFactory;
+
+        public string GeneralParameterName
+        {
+            get { return "unitOfWork"; }
+        }
 
         public EfUnitOfWork(IContextFactory contextFactory)
         {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using UAR.Persistence.Contracts.Scope;
 
 namespace UAR.Persistence.Contracts
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork : IDisposable, IScopeRelatedInstance
     {
 
         void Commit();

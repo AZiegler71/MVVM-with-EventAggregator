@@ -5,6 +5,7 @@ using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using UAR.Persistence.Contracts.Scope;
 using UAR.UI.Contracts;
 
 namespace UAR.UI.WinForms
@@ -34,6 +35,10 @@ namespace UAR.UI.WinForms
             yield return Component.For<IScopeSupporterFactory>()
                 .ImplementedBy<ScopeSupporterFactory>()
                 .LifestyleScoped();
+
+            yield return Component.For<IScopeRelatedInstanceFactory>()
+                .LifestyleSingleton()
+                .AsFactory();
 
             //Todo: Register all Form Types
             yield return Classes.FromThisAssembly()

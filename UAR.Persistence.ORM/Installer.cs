@@ -8,6 +8,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
 using UAR.Persistence.Contracts;
+using UAR.Persistence.Contracts.Scope;
 
 namespace UAR.Persistence.ORM
 {
@@ -46,7 +47,7 @@ namespace UAR.Persistence.ORM
                 .LifestyleScoped();
 
             yield return Component
-                .For<IUnitOfWork>()
+                .For<IUnitOfWork, IScopeRelatedInstance>()
                 .ImplementedBy<EfUnitOfWork>()
                 .LifestyleScoped();
         }
