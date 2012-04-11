@@ -1,32 +1,37 @@
-﻿<Window x:Class="UAR.UI.WPF.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:UAR.UI.WPF" Title="MainWindow"
-        Height="350" Width="525" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+﻿<Window x:Class="UAR.UI.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:UAR.UI.WPF"
+        Title="MainWindow"
+        Height="350" Width="525">
 
   <Window.Resources>
     <DataTemplate DataType="{x:Type local:MainVM}">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <ListView x:Name="listView" ItemsSource="{Binding Path=HecoEmployees}" Grid.Column="0">
-          <ListView.ItemContainerStyle>
-            <Style TargetType="{x:Type ListViewItem}">
-              <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
-            </Style>
-          </ListView.ItemContainerStyle>
-          <ListView.View>
-            <GridView>
-              <GridView.Columns>
-                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
-              </GridView.Columns>
-            </GridView>
-          </ListView.View>
-        </ListView>
-        <ContentControl Content="{Binding ElementName=listView, Path=SelectedItem}" Grid.Column="1" />
-      </Grid>
+      <DockPanel>
+        <Button Command="{Binding Path=OpenListCommand}" Content="Liste öffnen" DockPanel.Dock="Top" />
+        <Button Command="{Binding Path=DeleteItemsCommand}" Content="Ausgewählte löschen" DockPanel.Dock="Top" />
+        <ContentControl Focusable="false" Content="{Binding Path=SelectedEmployee}" DockPanel.Dock="Right" Width="250" />
+        <ContentControl Focusable="false" Content="{Binding Path=EmployeeList}" />
+      </DockPanel>
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type local:EmployeeListVM}">
+      <ListView ItemsSource="{Binding Path=Employees}">
+        <ListView.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+          </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.View>
+          <GridView>
+            <GridView.Columns>
+              <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
+            </GridView.Columns>
+          </GridView>
+        </ListView.View>
+      </ListView>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type local:EmployeeDetailsVM}">
       <StackPanel>
         <TextBlock Text="{Binding Path=Name}" Margin="4" />
@@ -34,10 +39,4 @@
       </StackPanel>
     </DataTemplate>
   </Window.Resources>
-  
-  <DockPanel>
-    <Button Click="Button_Click_Northwind" Height="40" DockPanel.Dock="Top">Northwind</Button>
-    <Button Click="Button_Delete" Height="40" DockPanel.Dock="Top">Löschen</Button>
-    <ContentControl Content="{Binding Path=MainViewModel}" />
-  </DockPanel>
 </Window>

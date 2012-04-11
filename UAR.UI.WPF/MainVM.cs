@@ -1,85 +1,73 @@
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using UAR.Domain.Northwind;
-using UAR.Persistence.Contracts;
 using UAR.UI.Contracts;
 
 namespace UAR.UI.WPF
 {
-    public class MainVM : IDisposable, IAmViewModel, IAmNotTestable
+    public class MainVM : IAmViewModel
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IDisposable _scope;
         private readonly IViewModelFactory _viewModelFactory;
 
-        public ObservableCollection<EmployeeDetailsVM> HecoEmployees { get; set; }
+        public DelegateCommandModel OpenListCommand { get; set; }
 
-        public MainVM(IUnitOfWork unitOfWork, IDisposable scope, IViewModelFactory viewModelFactory)
+        public DelegateCommandModel DeleteItemsCommand { get; set; }
+
+        #region EmployeeList property
+
+        public const string EmployeeListProperty = "EmployeeList";
+        private EmployeeListVM _employeeList;
+        public EmployeeListVM EmployeeList
         {
-            _unitOfWork = unitOfWork;
-            _scope = scope;
-            _viewModelFactory = viewModelFactory;
-
-            LoadEmployees();
-        }
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            _scope.Dispose();
-        }
-
-        public void DeleteSelected()
-        {
-            foreach (var employee in HecoEmployees.ToList())
+            get { return _employeeList; }
+            private set
             {
-                if (employee.IsSelected)
-                    HecoEmployees.Remove(employee);
+                if (_employeeList != value)
+                {
+                    _employeeList = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs(EmployeeListProperty));
+                }
             }
         }
 
-        private void LoadEmployees()
+        #endregion
+
+        #region SelectedEmployee property
+
+        public const string SelectedEmployeeProperty = "SelectedEmployee";
+        private EmployeeDetailsVM _selectedEmployee;
+        public EmployeeDetailsVM SelectedEmployee
         {
-            //var employees = (
-            //    from e in _unitOfWork.Entities<Employee>()
-            //    where e.EmployeeID < 10
-            //    select e
-            //    ).ToList();
-
-            //if (HecoEmployees == null)
-            //    HecoEmployees = new ObservableCollection<EmployeeDetailVM>();
-            //else
-            //    HecoEmployees.Clear();
-
-            //foreach (var employee in employees)
-            //    HecoEmployees.Add(_viewModelFactory.Create<EmployeeDetailVM>(new {employee}));
-
-            HecoEmployees = new ObservableCollection<EmployeeDetailsVM>
+            get { return _selectedEmployee; }
+            private set
             {
-                new EmployeeDetailsVM(new Employee
+                if (_selectedEmployee != value)
                 {
-                    FirstName = "Vorname1",
-                    HomePhone = "111",
-                    LastName = "Nachname1"
-                }),
-                new EmployeeDetailsVM(new Employee
+                    _selectedEmployee = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs(SelectedEmployeeProperty));
+                }
+            }
+        }
+
+        #endregion
+
+        public MainVM(IViewModelFactory viewModelFactory)
+        {
+            _viewModelFactory = viewModelFactory;
+
+            OpenListCommand = new DelegateCommandModel(
+                x => true,
+                x =>
                 {
-                    FirstName = "Vorname2",
-                    HomePhone = "222",
-                    LastName = "Nachname2"
-                }),
-                new EmployeeDetailsVM(new Employee
-                {
-                    FirstName = "Vorname3",
-                    HomePhone = "333",
-                    LastName = "Nachname3"
-                })
-            };
+                    EmployeeList = new EmployeeListVM();
+                    EmployeeList.Load();
+                });
+
+            DeleteItemsCommand = new DelegateCommandModel(
+                x => true,
+                x => EmployeeList.DeleteSelected());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

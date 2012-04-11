@@ -4,7 +4,7 @@ using UAR.UI.Contracts;
 
 namespace UAR.UI.WPF
 {
-    public class EmployeeDetailsVM : IAmViewModel, IAmNotTestable, IListViewItem
+    public class EmployeeDetailsVM : IAmViewModel, IListViewItem
     {
         private bool _isSelected;
 

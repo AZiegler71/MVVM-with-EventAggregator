@@ -6,45 +6,14 @@ using UAR.UI.Contracts;
 namespace UAR.UI.WPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///   Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : IAmViewModel
+    public partial class MainWindow
     {
-        readonly IViewModelFactory _viewModelFactory;
-
-        MainVM _mainViewModel;
-        public MainVM MainViewModel
-        {
-            get
-            {
-                return _mainViewModel;
-            }
-            set
-            {
-                _mainViewModel = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("MainViewModel"));
-            }
-        }
-
         public MainWindow(IViewModelFactory viewModelFactory)
         {
-            _viewModelFactory = viewModelFactory;
             InitializeComponent();
+            Content = viewModelFactory.Create<MainVM>();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void Button_Click_Northwind(object sender, RoutedEventArgs e)
-        {
-            if (MainViewModel == null)
-                MainViewModel = _viewModelFactory.CreateScoped<MainVM>();
-        }
-
-        private void Button_Delete(object sender, RoutedEventArgs e)
-        {
-            MainViewModel.DeleteSelected();
-        }
-
     }
 }

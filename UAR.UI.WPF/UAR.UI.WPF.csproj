@@ -96,7 +96,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DelegateCommandModel.cs" />
     <Compile Include="EmployeeDetailsVM.cs" />
+    <Compile Include="EmployeeListVM.cs" />
     <Compile Include="IListViewItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ViewModelFactory.cs" />
