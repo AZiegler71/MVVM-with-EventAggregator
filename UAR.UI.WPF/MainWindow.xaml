@@ -10,13 +10,13 @@
       <DockPanel>
         <Button Command="{Binding Path=OpenListCommand}" Content="Liste öffnen" DockPanel.Dock="Top" />
         <Button Command="{Binding Path=DeleteItemsCommand}" Content="Ausgewählte löschen" DockPanel.Dock="Top" />
-        <ContentControl Focusable="false" Content="{Binding Path=SelectedEmployee}" DockPanel.Dock="Right" Width="250" />
+        <ContentControl Focusable="false" Content="{Binding Path=EmployeeList.FirstSelected}" DockPanel.Dock="Right" Width="250" />
         <ContentControl Focusable="false" Content="{Binding Path=EmployeeList}" />
       </DockPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:EmployeeListVM}">
-      <ListView ItemsSource="{Binding Path=Employees}">
+      <ListView ItemsSource="{Binding Path=Employees}" SelectedItem="{Binding Path=FirstSelected}">
         <ListView.ItemContainerStyle>
           <Style TargetType="{x:Type ListViewItem}">
             <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />

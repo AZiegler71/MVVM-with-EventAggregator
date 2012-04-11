@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq;
 using UAR.UI.Contracts;
+using System.Windows.Input;
 
 namespace UAR.UI.WPF
 {
@@ -14,7 +15,7 @@ namespace UAR.UI.WPF
 
         #region EmployeeList property
 
-        public const string EmployeeListProperty = "EmployeeList";
+        private const string EmployeeListProperty = "EmployeeList";
         private EmployeeListVM _employeeList;
         public EmployeeListVM EmployeeList
         {
@@ -34,7 +35,7 @@ namespace UAR.UI.WPF
 
         #region SelectedEmployee property
 
-        public const string SelectedEmployeeProperty = "SelectedEmployee";
+        private const string SelectedEmployeeProperty = "SelectedEmployee";
         private EmployeeDetailsVM _selectedEmployee;
         public EmployeeDetailsVM SelectedEmployee
         {
@@ -65,7 +66,7 @@ namespace UAR.UI.WPF
                 });
 
             DeleteItemsCommand = new DelegateCommandModel(
-                x => true,
+                x => EmployeeList != null,
                 x => EmployeeList.DeleteSelected());
         }
 

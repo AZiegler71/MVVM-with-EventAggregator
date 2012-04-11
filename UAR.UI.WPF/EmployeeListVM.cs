@@ -11,6 +11,26 @@ namespace UAR.UI.WPF
         private readonly IViewModelFactory _viewModelFactory;
         public ObservableCollection<EmployeeDetailsVM> Employees { get; set; }
 
+        #region FirstSelected property
+
+        private const string FirstSelectedProperty = "FirstSelected";
+        private EmployeeDetailsVM _firstSelected;
+        public EmployeeDetailsVM FirstSelected
+        {
+            get { return _firstSelected; }
+            set
+            {
+                if (_firstSelected != value)
+                {
+                    _firstSelected = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs(FirstSelectedProperty));
+                }
+            }
+        }
+
+        #endregion
+
         public EmployeeListVM(IViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory;
