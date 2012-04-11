@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using Castle.Core;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
-
 using UAR.UI.Contracts;
 
 namespace UAR.UI.WPF
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        readonly IWindsorContainer _container;
+        private readonly IWindsorContainer _container;
 
         public ViewModelFactory(IWindsorContainer container)
         {
@@ -31,7 +29,7 @@ namespace UAR.UI.WPF
             return _container.Resolve<T>(arg);
         }
 
-        public T Create<T>() where T : class 
+        public T Create<T>() where T : class
         {
             return Create<T>(new object());
         }
@@ -41,17 +39,16 @@ namespace UAR.UI.WPF
             return _container.Resolve<T>(args);
         }
 
-
-
         private static Dictionary<string, object> PatchArgumentsWithScope<T>(object args, IDisposable scope) where T : class, IDisposable
         {
-            var dict = (IDictionary) new ReflectionBasedDictionaryAdapter(args);
-            
-            var arg = new Dictionary<string, object> {{"scope", scope}};
-            foreach (var key in dict.Keys)
+            var dict = (IDictionary)new ReflectionBasedDictionaryAdapter(args);
+
+            var arg = new Dictionary<string, object>
             {
-                arg.Add((string) key, dict[key]);
-            }
+                {"scope", scope}
+            };
+            foreach (var key in dict.Keys)
+                arg.Add((string)key, dict[key]);
             return arg;
         }
     }

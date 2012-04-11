@@ -1,15 +1,13 @@
 using System.Windows.Forms;
-
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
-
 using UAR.UI.Contracts;
 
 namespace UAR.UI.WinForms
 {
-    class DialogFactory : IDialogFactory
+    internal class DialogFactory : IDialogFactory
     {
-        readonly IWindsorContainer _container;
+        private readonly IWindsorContainer _container;
 
         public DialogFactory(IWindsorContainer container)
         {

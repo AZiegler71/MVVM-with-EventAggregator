@@ -90,6 +90,7 @@
       <DependentUpon>AW_Dialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DialogFactory.cs" />
+    <Compile Include="ScopeSupporterFactory.cs" />
     <Compile Include="Installer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

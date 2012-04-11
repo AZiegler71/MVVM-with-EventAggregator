@@ -27,7 +27,13 @@ namespace UAR.UI.WinForms
 
         private static IEnumerable<IRegistration> Components()
         {
-            yield return Component.For<IDialogFactory>().ImplementedBy<DialogFactory>();
+            yield return Component.For<IDialogFactory>()
+                .ImplementedBy<DialogFactory>()
+                .LifestyleSingleton();
+
+            yield return Component.For<IScopeSupporterFactory>()
+                .ImplementedBy<ScopeSupporterFactory>()
+                .LifestyleScoped();
 
             //Todo: Register all Form Types
             yield return Classes.FromThisAssembly()
@@ -35,7 +41,6 @@ namespace UAR.UI.WinForms
                 .WithServiceSelf()
                 .LifestyleTransient();
 
-            yield return Component.For<ITest1Factory>().LifestyleScoped().AsFactory();
             yield return Component.For<Test1>().LifestyleTransient();
         }
     }

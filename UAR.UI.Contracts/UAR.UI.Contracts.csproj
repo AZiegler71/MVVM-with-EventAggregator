@@ -41,6 +41,7 @@
     <Compile Include="IAmNotTestable.cs" />
     <Compile Include="IAmViewModel.cs" />
     <Compile Include="IDialogFactory.cs" />
+    <Compile Include="IScopeSupporterFactory.cs" />
     <Compile Include="IViewModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
