@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.Linq;
 using UAR.UI.Contracts;
@@ -61,7 +60,7 @@ namespace UAR.UI.WPF
                 x => true,
                 x =>
                 {
-                    EmployeeList = new EmployeeListVM();
+                    EmployeeList = viewModelFactory.Create<EmployeeListVM>();
                     EmployeeList.Load();
                 });
 

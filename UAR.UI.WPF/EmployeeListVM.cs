@@ -8,29 +8,45 @@ namespace UAR.UI.WPF
 {
     public class EmployeeListVM : IAmViewModel
     {
+        private readonly IViewModelFactory _viewModelFactory;
         public ObservableCollection<EmployeeDetailsVM> Employees { get; set; }
+
+        public EmployeeListVM(IViewModelFactory viewModelFactory)
+        {
+            _viewModelFactory = viewModelFactory;
+        }
 
         internal void Load()
         {
+            // fill with dummy data
             Employees = new ObservableCollection<EmployeeDetailsVM>
             {
-                new EmployeeDetailsVM(new Employee
+                _viewModelFactory.Create<EmployeeDetailsVM>(new
                 {
-                    FirstName = "Vorname1",
-                    HomePhone = "111",
-                    LastName = "Nachname1"
+                    employee = new Employee
+                    {
+                        FirstName = "Vorname1",
+                        HomePhone = "111",
+                        LastName = "Nachname1"
+                    }
                 }),
-                new EmployeeDetailsVM(new Employee
+                _viewModelFactory.Create<EmployeeDetailsVM>(new
                 {
-                    FirstName = "Vorname2",
-                    HomePhone = "222",
-                    LastName = "Nachname2"
+                    employee = new Employee
+                    {
+                        FirstName = "Vorname2",
+                        HomePhone = "222",
+                        LastName = "Nachname2"
+                    }
                 }),
-                new EmployeeDetailsVM(new Employee
+                _viewModelFactory.Create<EmployeeDetailsVM>(new
                 {
-                    FirstName = "Vorname3",
-                    HomePhone = "333",
-                    LastName = "Nachname3"
+                    employee = new Employee
+                    {
+                        FirstName = "Vorname3",
+                        HomePhone = "333",
+                        LastName = "Nachname3"
+                    }
                 })
             };
         }
