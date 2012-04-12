@@ -36,10 +36,6 @@ namespace UAR.UI.WinForms
                 .ImplementedBy<ScopeSupporterFactory>()
                 .LifestyleScoped();
 
-            yield return Component.For<IScopeRelatedInstanceFactory>()
-                .LifestyleSingleton()
-                .AsFactory();
-
             //Todo: Register all Form Types
             yield return Classes.FromThisAssembly()
                 .BasedOn<Form>()

@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Castle.Windsor;
 using UAR.Persistence.Contracts.Scope;
 using UAR.UI.Contracts;
-using System.Collections;
 
 namespace UAR.UI.WinForms
 {
@@ -15,10 +14,10 @@ namespace UAR.UI.WinForms
         private readonly IWindsorContainer _container;
         private readonly IDictionary _scopeRelatedInstances;
 
-        public ScopeSupporterFactory(IWindsorContainer container, IScopeRelatedInstanceFactory scopeRelatedInstanceFactory)
+        public ScopeSupporterFactory(IWindsorContainer container)
         {
             _container = container;
-            _scopeRelatedInstances = scopeRelatedInstanceFactory.CreateScopeRelatedInstances()
+            _scopeRelatedInstances = _container.ResolveAll<IScopeRelatedInstance>()
                 .ToDictionary(x => x.GeneralParameterName, x => x);
         }
 
