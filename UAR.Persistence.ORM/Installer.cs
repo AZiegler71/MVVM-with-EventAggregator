@@ -47,7 +47,7 @@ namespace UAR.Persistence.ORM
                 .LifestyleScoped();
 
             yield return Component
-                .For<IUnitOfWork, IScopeRelatedInstance>()
+                .For<IUnitOfWork, IScopeRelatedInstance>() // TODO @AGross: need to also define IScopeRelatedInstance (which is implemented by IUnitOfWork already) to be able to get it by ResolveAll<IScopeRelatedInstance>() ?
                 .ImplementedBy<EfUnitOfWork>()
                 .LifestyleScoped();
         }

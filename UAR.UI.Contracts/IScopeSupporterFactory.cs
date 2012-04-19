@@ -1,9 +1,11 @@
-using System.Windows.Forms;
+using System;
 
 namespace UAR.UI.Contracts
 {
-    public interface IScopeSupporterFactory
+    public interface IScopeSupporterFactory : IDisposable
     {
         T Create<T>();
+
+        void Release(object instance);
     }
 }

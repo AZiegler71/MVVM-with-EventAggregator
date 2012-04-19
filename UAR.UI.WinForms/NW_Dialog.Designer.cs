@@ -60,7 +60,6 @@
             this.Controls.Add(this.label1);
             this.Name = "NW_Dialog";
             this.Text = "NW_Dialog";
-            this.Load += new System.EventHandler(this.NW_Dialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

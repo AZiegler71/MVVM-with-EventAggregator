@@ -8,32 +8,38 @@ namespace UAR.UI.WinForms
 {
     public partial class NW_Dialog : Form
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IScopeSupporterFactory _dialogFactory;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IScopeSupporterFactory _factory;
+        private Test1 _t1;
 
-        public NW_Dialog(IUnitOfWork unitOfWork, IScopeSupporterFactory dialogFactory, IScopeSupporterFactory factory)
+        public NW_Dialog(IScopeSupporterFactory factory)//(IUnitOfWork unitOfWork, IScopeSupporterFactory factory)
         {
-            _unitOfWork = unitOfWork;
-            _dialogFactory = dialogFactory;
+            //_unitOfWork = unitOfWork;
             _factory = factory;
             InitializeComponent();
-        }
 
-        private void NW_Dialog_Load(object sender, EventArgs e)
-        {
-            label1.Text = "kjhjhk"; // _unitOfWork.Entities<Employee>().First().FirstName;
+            Closed += (s, a) =>
+            {
+                if (_t1 != null)
+                    _t1.Dispose();
+            };
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Test1 t1 = _factory.Create<Test1>();
+            if (_t1 != null)
+                _factory.Release(_t1);
+            _t1 = _factory.Create<Test1>();
         }
     }
 
-    public class Test1
+    public class Test1 : IDisposable
     {
         public Test1(IUnitOfWork unitOfWork)
+        {
+        }
+
+        public void Dispose()
         {
         }
     }

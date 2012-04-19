@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Castle.Windsor;
@@ -24,6 +25,15 @@ namespace UAR.UI.WinForms
         public T Create<T>()
         {
             return _container.Resolve<T>(_scopeRelatedInstances);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public void Release(object instance)
+        {
+            _container.Release(instance);
         }
     }
 }
